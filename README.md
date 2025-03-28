@@ -4,17 +4,18 @@ This is a project that uses raw sensory data collected by wearable sensors and m
 
 code structure:<br>
 -model.HMMBCR.py<br>
+
 --module.feature_extraction.py (multi-modal feature extraction)<br>
 
   --module.MULT.py (multi-modal fusion module, i.e. cross-modal fusion encoder)<br>
-    --component.position_embeddings.py<br>
-    --component.mult_encoder.py<br>
+    ----component.position_embeddings.py<br>
+    ----component.mult_encoder.py<br>
     
   --module.Heterogeous_decoder (Heterogeneous Modality-to-Label Dependence Module)<br>
-    --component.modality_label_fusion.py<br>
+    ----component.modality_label_fusion.py<br>
     
   --module.HGAT (Heterogeneous Label-to-Label Dependence Module)<br>
-    --component.HGAT_layers.py (discretely, we perform the dual-level attention here)<br>
+    ----component.HGAT_layers.py (discretely, we perform the dual-level attention here)<br>
 
 Requirements on this work:<br>
 python 3.8.13<br>
