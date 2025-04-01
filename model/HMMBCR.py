@@ -11,7 +11,7 @@ from component.per_label_classifiers import Element_Wise_Layer
 parser = argparse.ArgumentParser()
 args = get_args(parser)
 
-
+# main framework
 class HMMBCR(nn.Module):
     def __init__(self, args):
         super(HMMBCR, self).__init__()
@@ -41,24 +41,24 @@ class HMMBCR(nn.Module):
     def forward(self, batch_acc, batch_gyro, batch_audio, batch_state):
         batch_size = batch_acc.shape[0]
         # tokenization
-        motion, audio, state = self.feature_extractor(batch_acc, batch_gyro, batch_audio, batch_state)  # [B, D, L]
+        motion, audio, state = self.feature_extractor(batch_acc, batch_gyro, batch_audio, batch_state)  # [B, D, L]   # to extract features
         src_motion = motion.permute(2, 0, 1)
         src_audio = audio.permute(2, 0, 1)
         src_state = state.unsqueeze(0)  # [L, N, D]
 
         # fusion
-        enc_motion, enc_audio, enc_state = self.fusion_model(src_motion, src_audio, src_state)  # [L,N,D]
+        enc_motion, enc_audio, enc_state = self.fusion_model(src_motion, src_audio, src_state)  # [L,N,D]  # apply MulT to perform modality fusion, see module.MULT for details
 
         # modality-label dependence
         # categorization
         tgt_input = []
         for i in range(self.num_types):
             tgt_input.append(self.label_embedding[i].weight.unsqueeze(1).expand(-1, batch_size, -1))  # [L,N,D]
-        m2l_output, _ = self.modal_to_label(tgt_input, enc_motion, enc_audio, enc_state)
+        m2l_output, _ = self.modal_to_label(tgt_input, enc_motion, enc_audio, enc_state)  # apply Heterogeous Decoder to perform heterogeneous modality-to-label dependence, see module.Heterogeous_decoder for details
 
         # label-label dependence
         # categorization
-        l2l_output, _, _, _ = self.label_to_label(m2l_output, self.adjacency_matrix.to(self.device))  # expected [N, nodes, dim]
+        l2l_output, _, _, _ = self.label_to_label(m2l_output, self.adjacency_matrix.to(self.device))  # expected [N, nodes, dim]  # see module.HGAT for details, !!! and the dual-level attention sturcture is in component.HGAT_layer
         output = torch.cat((m2l_output.view(batch_size * self.num_classes, -1), l2l_output.view(batch_size * self.num_classes, -1)), 1)
         output = output.view(batch_size, self.num_classes, -1)  # [N, L, D]
 
