@@ -2,7 +2,8 @@
 This is a project that uses raw sensory data collected by wearable sensors and mobile devices for Behavioral Context Recognition, which can been as an extension of Human Activity Recognition. <br>
 ![总体框图8](https://github.com/user-attachments/assets/cadd2adb-70e4-4fe0-a7c6-30964ca082a9) <br>
 
-code structure:<br>
+
+Code structure:<br>
 -model.HMMBCR.py<br>
 
 --module.feature_extraction.py (multi-modal feature extraction)<br>
@@ -16,6 +17,7 @@ code structure:<br>
     
   --module.HGAT (Heterogeneous Label-to-Label Dependence Module)<br>
     ----component.HGAT_layers.py (discretely, we perform the dual-level attention here)<br>
+
 
 Requirements on this work:<br>
 python 3.8.13<br>
