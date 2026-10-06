@@ -27,4 +27,4 @@ typing 4.8.0<br>
 The datasets are available at:<br>
 Extrasensory dataset: http://extrasensory.ucsd.edu/ <br>
 ETRI Lifelog dataset: https://nanum.etri.re.kr/share/schung/ETRILifelogDataset2020?lang=En_us <br>
-Article link: To be continued
+Article link: https://ieeexplore.ieee.org/document/11435184
